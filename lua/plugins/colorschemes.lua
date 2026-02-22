@@ -6,14 +6,11 @@ return {
       update_interval = 1000,
       set_dark_mode = function()
         -- vim.cmd([[colorscheme flexoki-dark]])
-        require("yukinord").setup({ style = "dark" })
-        vim.cmd([[colorscheme gruvbox-material]])
-        -- vim.cmd([[colorscheme yukinord]])
+        vim.cmd([[colorscheme catppuccin-frappe]])
       end,
       set_light_mode = function()
         -- vim.cmd([[colorscheme flexoki-light]])
-        require("yukinord").setup({ style = "light" })
-        vim.cmd([[colorscheme gruvbox-material]])
+        vim.cmd([[colorscheme catppuccin-frappe]])
       end,
     },
   },
@@ -67,9 +64,10 @@ return {
     name = "catppuccin",
     config = function()
       require("catppuccin").setup({
+        flavour = "frappe",
         background = {
           light = "latte",
-          dark = "mocha",
+          dark = "frappe",
         },
         color_overrides = {
           latte = {

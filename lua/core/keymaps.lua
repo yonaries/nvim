@@ -80,6 +80,67 @@ vim.keymap.set("n", "X", ":keeppatterns substitute/\\s*\\%#\\s*/\\r/e <bar> norm
 vim.keymap.set("n", "<C-a>", "ggVG", { desc = "Select All" })
 
 -- ════════════════════════════════════════════════════════════════════════════
+-- Legacy Muscle-Memory Keymaps
+-- ════════════════════════════════════════════════════════════════════════════
+
+local function has_map(mode, lhs)
+  local existing = vim.fn.maparg(lhs, mode, false, true)
+  return type(existing) == "table" and next(existing) ~= nil
+end
+
+local function get_snacks()
+  if _G.Snacks then
+    return _G.Snacks
+  end
+  local ok, snacks = pcall(require, "snacks")
+  return ok and snacks or nil
+end
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "VeryLazy",
+  callback = function()
+    if not has_map("n", "<leader>w") then
+      vim.keymap.set("n", "<leader>w", "<C-s>", { remap = true, desc = "Save File" })
+    end
+
+    if not has_map("n", "<leader><space>") then
+      vim.keymap.set("n", "<leader><space>", function()
+        local snacks = get_snacks()
+        if snacks and snacks.picker and snacks.picker.files then
+          snacks.picker.files()
+        end
+      end, { desc = "Find Files" })
+    end
+
+    if not has_map("n", "<leader>a") then
+      vim.keymap.set("n", "<leader>a", "ggVG", { desc = "Select All" })
+    end
+
+    if not has_map("n", "<leader>1") then
+      vim.keymap.set("n", "<leader>1", function()
+        local snacks = get_snacks()
+        if not snacks then
+          return
+        end
+
+        local explorer = snacks.picker and snacks.picker.get({ source = "explorer" })[1]
+        if not explorer then
+          snacks.explorer()
+          return
+        end
+
+        if explorer:is_focused() then
+          vim.cmd("wincmd p")
+          return
+        end
+
+        explorer:focus("list", { show = true })
+      end, { desc = "Toggle Explorer/Editor Focus" })
+    end
+  end,
+})
+
+-- ════════════════════════════════════════════════════════════════════════════
 -- Insert Mode Escapes
 -- ════════════════════════════════════════════════════════════════════════════
 

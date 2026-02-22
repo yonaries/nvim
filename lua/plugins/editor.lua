@@ -52,10 +52,13 @@ return {
   },
 
   {
-    "echasnovski/mini.icons",
-    enabled = true,
-    opts = {},
+    "nvim-tree/nvim-web-devicons",
     lazy = true,
+    opts = {
+      default = true,
+      color_icons = true,
+      strict = true,
+    },
   },
 
   -- ════════════════════════════════════════════════════════════════════════════
