@@ -23,7 +23,8 @@ return {
     picker = {
       enabled = true,
       sources = {
-        files = { hidden = true },
+        files = { hidden = true, ignored = true },
+        explorer = { hidden = true, ignored = true },
         gh_issue = {},
         gh_pr = {},
       },
